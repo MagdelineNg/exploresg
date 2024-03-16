@@ -1,9 +1,12 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 // import 'package:hidden_gems_sg/helper/tracker_controller.dart';
 // import 'package:geolocator/geolocator.dart';
 // import 'package:google_maps/google_maps.dart';
 // import 'package:hidden_gems_sg/theme/theme_constants.dart';
+import 'package:hidden_gems_sg/screens/search_ui.dart';
 import 'package:hidden_gems_sg/helper/utils.dart';
 import 'package:hidden_gems_sg/helper/location_controller.dart';
 import 'package:flutter_svg/svg.dart';
@@ -16,7 +19,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreen extends State<HomeScreen> {
-  String _placeTypeDropdownValue = 'airport';
+  String _placeTypeDropdownValue = 'airport',
+      _filterByDropdownValue = 'filter by',
+      _prevFilter = '';
   Locator _locator = Locator();
   TextEditingController _searchController = new TextEditingController();
   late LatLng _userLoc;
@@ -36,6 +41,8 @@ class _HomeScreen extends State<HomeScreen> {
     if (result != null) {
       _userLoc = result;
     }
+    //// TODO: add home controller
+    //// TODO: add favourites controller
     //_places = await _homeController.loadRecommendations(context);
     //_favourites = await _favouritesController.getFavouritesList();
     setState(() {
@@ -45,6 +52,7 @@ class _HomeScreen extends State<HomeScreen> {
 
   Future<void> _reload() async {
     _isLoaded = false;
+    //// TODO: add home controller
     // _places = await _homeController.loadRecommendations(context);
     setState(() {
       _isLoaded = true;
@@ -68,6 +76,202 @@ class _HomeScreen extends State<HomeScreen> {
       errorBorder: InputBorder.none,
       disabledBorder: InputBorder.none,
       labelStyle: TextStyle(color: Color(0xff22254C), fontSize: 16));
+
+  RangeValues _priceValues = RangeValues(0, 4);
+  RangeValues _ratingValues = RangeValues(1, 5);
+
+  int _minFilter = 0;
+  int _maxFilter = 4;
+  double _distValue = 15000;
+
+  Widget _ratingFilter(double width) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 16),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          buildSideLabel(
+            _minFilter.toString(),
+          ),
+          Expanded(
+            child: RangeSlider(
+              values: _ratingValues,
+              min: 1,
+              max: 5,
+              divisions: 5,
+              labels: RangeLabels(
+                _ratingValues.start.round().toString(),
+                _ratingValues.end.round().toString(),
+              ),
+              onChanged: (values) {
+                setState(() {
+                  _ratingValues = values;
+                  _minFilter = values.start.round();
+                  _maxFilter = values.end.round();
+                });
+              },
+            ),
+          ),
+          buildSideLabel(_maxFilter.toString()),
+        ],
+      ),
+    );
+  }
+
+  Widget _priceFilter(double width) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 16),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          buildSideLabel(_minFilter.toString()),
+          Expanded(
+            child: RangeSlider(
+              values: _priceValues,
+              min: 0,
+              max: 4,
+              divisions: 4,
+              labels: RangeLabels(
+                _priceValues.start.round().toString(),
+                _priceValues.end.round().toString(),
+              ),
+              onChanged: (values) {
+                setState(() {
+                  _priceValues = values;
+                  _minFilter = values.start.round();
+                  _maxFilter = values.end.round();
+                });
+              },
+            ),
+          ),
+          buildSideLabel(_maxFilter.toString()),
+        ],
+      ),
+    );
+  }
+
+  Widget _distanceFilter(double width) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 16),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          buildSideLabel('0 km'),
+          Expanded(
+            child: CupertinoSlider(
+              activeColor: Color(0xff6488E5),
+              value: _distValue,
+              min: 0,
+              max: 15000,
+              divisions: 1500,
+              onChanged: (value) {
+                setState(() {
+                  _distValue = value;
+                  _maxFilter = value.round();
+                  _minFilter = 0;
+                });
+              },
+            ),
+          ),
+          buildSideLabel('${_maxFilter / 1000}km'),
+        ],
+      ),
+    );
+  }
+
+  Widget buildSideLabel(String value) {
+    return Container(
+      width: 60,
+      child: Text(
+        value,
+        style: TextStyle(fontFamily: 'AvenirLtStd', fontSize: 13),
+        textAlign: TextAlign.center,
+      ),
+    );
+  }
+
+  Widget _displayFiltered(double width) {
+    if (_filterByDropdownValue == 'distance') {
+      if (_prevFilter != _filterByDropdownValue) {
+        setState(() {
+          _minFilter = 0;
+          _maxFilter = 15000;
+          _distValue = 15000;
+        });
+      }
+      _prevFilter = _filterByDropdownValue;
+      return _distanceFilter(width);
+    } else if (_filterByDropdownValue == 'ratings') {
+      if (_prevFilter != _filterByDropdownValue) {
+        setState(() {
+          _minFilter = 1;
+          _maxFilter = 5;
+          _priceValues = RangeValues(0, 4);
+        });
+      }
+      _prevFilter = _filterByDropdownValue;
+      return _ratingFilter(width);
+    } else if (_filterByDropdownValue == 'price') {
+      if (_prevFilter != _filterByDropdownValue) {
+        setState(() {
+          _minFilter = 0;
+          _maxFilter = 4;
+          _ratingValues = RangeValues(1, 5);
+        });
+      }
+      _prevFilter = _filterByDropdownValue;
+      return _priceFilter(width);
+    } else {
+      return SizedBox.shrink();
+    }
+  }
+
+  Widget _filterDropDown(double width) {
+    return _dropDownList(
+      0.49 * width,
+      DropdownButtonFormField<String>(
+        icon: Icon(
+          Icons.arrow_drop_down,
+          color: Color(0xffD1D1D6),
+        ),
+        items: [
+          DropdownMenuItem(
+              value: 'filter by',
+              child: textMinor(
+                'filter by',
+                Color(0xffD1D1D6),
+              )),
+          DropdownMenuItem(
+              value: 'distance',
+              child: textMinor(
+                'distance',
+                Color(0xff22254C),
+              )),
+          DropdownMenuItem(
+              value: 'ratings',
+              child: textMinor(
+                'ratings',
+                Color(0xff22254C),
+              )),
+          DropdownMenuItem(
+              value: 'price',
+              child: textMinor(
+                'price',
+                Color(0xff22254C),
+              ))
+        ],
+        decoration: dropdownDeco,
+        isExpanded: true,
+        value: _filterByDropdownValue,
+        onChanged: (String? newValue) {
+          setState(() {
+            _filterByDropdownValue = newValue!;
+            _displayFiltered(width);
+          });
+        },
+      ),
+    );
+  }
 
   Widget _placeTypeDropDown(double width) {
     return _dropDownList(
@@ -120,11 +324,11 @@ class _HomeScreen extends State<HomeScreen> {
         textAlignVertical: TextAlignVertical.center,
         controller: _searchController,
         cursorColor: Color(0xffD1D1D6),
-        cursorHeight: 14.0,
+        cursorHeight: 18.0,
         style: avenirLtStdStyle(
           Color(0xff22254C),
         ),
-        decoration: new InputDecoration(
+        decoration: InputDecoration(
           prefixIcon: Icon(
             Icons.search,
             color: Color(0xffD1D1D6),
@@ -138,7 +342,7 @@ class _HomeScreen extends State<HomeScreen> {
             borderRadius: BorderRadius.all(
               Radius.circular(20.0),
             ),
-            borderSide: const BorderSide(
+            borderSide: BorderSide(
               color: Colors.white,
             ),
           ),
@@ -149,6 +353,41 @@ class _HomeScreen extends State<HomeScreen> {
             borderSide: BorderSide(color: Colors.white),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _goButton() {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: TextButton(
+        style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all<Color>(
+              Color(0xff6488E5),
+            ),
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
+            ))),
+        onPressed: () {
+          Navigator.pushNamed(
+            context,
+            SearchScreen.routeName,
+            arguments: _searchByCategory == false //using input searchbar
+                ? SearchScreenArguments(_maxFilter, _minFilter,
+                    _filterByDropdownValue, _searchController.text)
+                : SearchScreenArguments(
+                    //using place type dropdown
+                    _maxFilter,
+                    _minFilter,
+                    _filterByDropdownValue,
+                    _placeTypeDropdownValue,
+                  ),
+          );
+        },
+        child: Text('go!',
+            style: TextStyle(
+                fontFamily: 'AvenirLtStd', fontSize: 16, color: Colors.white)),
       ),
     );
   }
@@ -168,6 +407,7 @@ class _HomeScreen extends State<HomeScreen> {
             children: [
               InkWell(
                   onTap: () async {
+                    //// TODO: add favourites controller
                     //await _favouritesController.addOrRemoveFav(place.id);
                     //_favourites =
                     // await _favouritesController.getFavouritesList();
@@ -217,12 +457,12 @@ class _HomeScreen extends State<HomeScreen> {
           _searchByCategory == false
               ? _searchBar(width, height)
               : _placeTypeDropDown(width),
-          // Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          //   SizedBox(width: 0.02 * width),
-          //   _filterDropDown(width)
-          // ]),
-          // _displayFiltered(width),
-          // _goButton()
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            SizedBox(width: 0.02 * width),
+            _filterDropDown(width)
+          ]),
+          _displayFiltered(width),
+          _goButton()
         ],
       ),
     );
