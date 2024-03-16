@@ -4,7 +4,7 @@ import 'package:hidden_gems_sg/screens/home_ui.dart';
 import 'package:hidden_gems_sg/screens/favourites_ui.dart';
 import 'package:hidden_gems_sg/screens/inbox_ui.dart';
 // import 'package:hidden/screens/interests_ui.dart';
-// import 'package:hidden/screens/search_ui.dart';
+import 'package:hidden_gems_sg/screens/search_ui.dart';
 import 'package:hidden_gems_sg/screens/place_ui.dart';
 import 'package:hidden_gems_sg/screens/profile_ui.dart';
 import 'package:hidden_gems_sg/screens/tracker_ui.dart';
@@ -39,40 +39,36 @@ class _BaseScreen extends State<BaseScreen> {
     return [
       PersistentBottomNavBarItem(
         icon: Icon(Icons.home),
-        title: 'Home',
         activeColorPrimary: Color(0xFF6488E5),
         inactiveColorPrimary: Color(0xffd1d1d6),
         routeAndNavigatorSettings: RouteAndNavigatorSettings(
-          initialRoute: '/home',
-          routes: {
-            "/first": (final context) => HomeScreen(),
-          },
-          // ignore: body_might_complete_normally_nullable
-          // onGenerateRoute: (RouteSettings? settings) {
-          // switch (settings!.name) {
-          //   case PlaceScreen.routeName:
-          //     {
-          //       final PlaceScreenArguments args =
-          //       settings.arguments as PlaceScreenArguments;
-          //       return MaterialPageRoute(builder: (context) {
-          //         return PlaceScreen(args.place, args.favourites);
-          //       });
-          //       // ignore: dead_code
-          //       break;
-          //     }
-          //   case SearchScreen.routeName:
-          //     {
-          //       final SearchScreenArguments args =
-          //       settings.arguments as SearchScreenArguments;
-          //       return MaterialPageRoute(builder: (context) {
-          //         return SearchScreen(
-          //             args.max, args.min, args.sort, args.text);
-          //       });
-          //     }
-          // }
-          //}
-          //return null;
-        ),
+            initialRoute: '/home',
+            // ignore: body_might_complete_normally_nullable
+            onGenerateRoute: (RouteSettings? settings) {
+              switch (settings!.name) {
+                case PlaceScreen.routeName:
+                  {
+                    final PlaceScreenArguments args =
+                        settings.arguments as PlaceScreenArguments;
+                    return MaterialPageRoute(builder: (context) {
+                      return PlaceScreen(args.place, args.favourites);
+                    });
+                    // ignore: dead_code
+                    break;
+                  }
+                case SearchScreen.routeName:
+                  {
+                    final SearchScreenArguments args =
+                        settings.arguments as SearchScreenArguments;
+                    return MaterialPageRoute(builder: (context) {
+                      return SearchScreen(
+                          args.max, args.min, args.sort, args.text);
+                    });
+                  }
+              }
+            }
+            //return null;
+            ),
       ),
       PersistentBottomNavBarItem(
         icon: Icon(Icons.favorite),
