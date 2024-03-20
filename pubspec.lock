@@ -49,6 +49,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.1"
+  cloud_firestore:
+    dependency: "direct main"
+    description:
+      name: cloud_firestore
+      sha256: "621afb8a3752732f865ea2d25e2f5cd01ed16ee5691f5a33958876d0a1cae846"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.15.9"
+  cloud_firestore_platform_interface:
+    dependency: transitive
+    description:
+      name: cloud_firestore_platform_interface
+      sha256: d200d82314548a11a02056ca96861d216ff814a1efe7bcc6595d404202f5212c
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.1.10"
+  cloud_firestore_web:
+    dependency: transitive
+    description:
+      name: cloud_firestore_web
+      sha256: "3b3046c23eccc1064328ab010cff4df470b6b1cfd648b82e08a84f5fb210bcb9"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.10.9"
   collection:
     dependency: transitive
     description:
@@ -137,6 +161,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.12.0"
+  firebase_messaging:
+    dependency: "direct main"
+    description:
+      name: firebase_messaging
+      sha256: "34fac43b70d5c41dc864eeb52417128da1f68b0a48604a0c56cd3190f0f609b8"
+      url: "https://pub.dev"
+    source: hosted
+    version: "14.7.20"
+  firebase_messaging_platform_interface:
+    dependency: transitive
+    description:
+      name: firebase_messaging_platform_interface
+      sha256: "1dcf7d0d6776396bb2e488c53b0e4cc671c45a65717a73d881e52190d23aca3c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.5.28"
+  firebase_messaging_web:
+    dependency: transitive
+    description:
+      name: firebase_messaging_web
+      sha256: ceabccf24d15d03c89dfd6c7eaef11c58fbf00b9c76ebc94028408943b8d2bfd
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.7.0"
   fixnum:
     dependency: transitive
     description:
@@ -212,18 +260,18 @@ packages:
     dependency: transitive
     description:
       name: geolocator_android
-      sha256: "136f1c97e1903366393bda514c5d9e98843418baea52899aa45edae9af8a5cd6"
+      sha256: f15d1536cd01b1399578f1da1eb5d566e7a718db6a3648f2c24d2e2f859f0692
       url: "https://pub.dev"
     source: hosted
-    version: "4.5.2"
+    version: "4.5.4"
   geolocator_apple:
     dependency: transitive
     description:
       name: geolocator_apple
-      sha256: "2f2d4ee16c4df269e93c0e382be075cc01d5db6703c3196e4af20a634fe49ef4"
+      sha256: bc2aca02423ad429cb0556121f56e60360a2b7d694c8570301d06ea0c00732fd
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.6"
+    version: "2.3.7"
   geolocator_platform_interface:
     dependency: transitive
     description:
@@ -316,10 +364,10 @@ packages:
     dependency: transitive
     description:
       name: google_sign_in_android
-      sha256: bfd42c81c30c6faba16e0f62968d5505a87504aaa672b3155ee931461abb0a49
+      sha256: "38cef11ed22fc0c9bfa7b00bf7f2d91012138f5613089522917fd26c853be93e"
       url: "https://pub.dev"
     source: hosted
-    version: "6.1.21"
+    version: "6.1.22"
   google_sign_in_ios:
     dependency: transitive
     description:

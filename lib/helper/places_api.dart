@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hidden_gems_sg/models/place.dart';
 import 'package:http/http.dart';
 
@@ -8,7 +8,7 @@ import 'package:http/http.dart';
 //place_id, plus_code, type, url, utc_offset, vicinity
 
 class PlacesApi {
-  final String? API_KEY = "type-api-key-here";
+  final String API_KEY = dotenv.env['PLACES_API_KEY']!;
   Client _client = Client();
   String findPlacesURL =
       'https://maps.googleapis.com/maps/api/place/findplacefromtext/json';

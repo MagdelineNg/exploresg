@@ -117,8 +117,8 @@ Future showAlert(BuildContext context, String title, String content) async {
           context: context,
           builder: (context) {
             return AlertDialog(
-              title: new Text(title),
-              content: new Text(content),
+              title: Text(title),
+              content: Text(content),
               actions: <Widget>[
                 TextButton(
                   child: Text("OK"),

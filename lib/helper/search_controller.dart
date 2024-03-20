@@ -15,7 +15,7 @@ class SearchController {
     List<Place> filteredPlace = [];
     PlacesApi _placesApi = PlacesApi();
 
-    Locator location = new Locator();
+    Locator location = Locator();
     var userLoc = await location.getCurrentLocation();
 
     if (userLoc != null) {

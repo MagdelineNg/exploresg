@@ -1,6 +1,5 @@
 import 'package:hidden_gems_sg/models/place.dart';
 import 'package:hidden_gems_sg/helper/utils.dart';
-import 'package:hidden_gems_sg/models/place.dart';
 import 'package:flutter/material.dart';
 
 class PlaceScreenArguments {

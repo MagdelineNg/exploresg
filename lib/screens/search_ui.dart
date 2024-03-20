@@ -159,8 +159,8 @@ class _SearchScreen extends State<SearchScreen> {
                         places[index],
                         0.8 * width,
                         0.215 * height,
-                        // TODO: this is placed here to avoid error
-                        // TODO: fix _addfav and remove this
+                        //// TODO: this is placed here to avoid error
+                        //// TODO: fix _addfav and remove this
                         Container(),
                         // _addFav(
                         //   places[index],

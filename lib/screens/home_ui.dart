@@ -8,6 +8,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 // import 'package:hidden_gems_sg/theme/theme_constants.dart';
 import 'package:hidden_gems_sg/screens/search_ui.dart';
 import 'package:hidden_gems_sg/helper/utils.dart';
+import 'package:hidden_gems_sg/helper/home_controller.dart';
 import 'package:hidden_gems_sg/helper/location_controller.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter/cupertino.dart';
@@ -23,7 +24,8 @@ class _HomeScreen extends State<HomeScreen> {
       _filterByDropdownValue = 'filter by',
       _prevFilter = '';
   Locator _locator = Locator();
-  TextEditingController _searchController = new TextEditingController();
+  TextEditingController _searchController = TextEditingController();
+  HomeController _homeController = HomeController();
   late LatLng _userLoc;
   bool _isLoaded = false;
   bool _searchByCategory = false;
@@ -41,9 +43,8 @@ class _HomeScreen extends State<HomeScreen> {
     if (result != null) {
       _userLoc = result;
     }
-    //// TODO: add home controller
     //// TODO: add favourites controller
-    //_places = await _homeController.loadRecommendations(context);
+    _places = await _homeController.loadRecommendations(context);
     //_favourites = await _favouritesController.getFavouritesList();
     setState(() {
       _isLoaded = true;
@@ -52,8 +53,7 @@ class _HomeScreen extends State<HomeScreen> {
 
   Future<void> _reload() async {
     _isLoaded = false;
-    //// TODO: add home controller
-    // _places = await _homeController.loadRecommendations(context);
+    _places = await _homeController.loadRecommendations(context);
     setState(() {
       _isLoaded = true;
     });
@@ -180,7 +180,7 @@ class _HomeScreen extends State<HomeScreen> {
   }
 
   Widget buildSideLabel(String value) {
-    return Container(
+    return SizedBox(
       width: 60,
       child: Text(
         value,
@@ -440,7 +440,7 @@ class _HomeScreen extends State<HomeScreen> {
   }
 
   Widget _searchTools(double width, double height) {
-    return Container(
+    return SizedBox(
       width: width,
       child: Column(
         children: [
