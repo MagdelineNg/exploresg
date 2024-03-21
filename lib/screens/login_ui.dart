@@ -2,7 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hidden_gems_sg/screens/base_ui.dart';
 import 'package:hidden_gems_sg/helper/user_controller.dart';
+import 'package:hidden_gems_sg/helper/auth_controller.dart';
 import 'package:iconly/iconly.dart';
+import 'package:hidden_gems_sg/helper/utils.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -31,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Text(
                 'Placeholder text',
                 style:
-                textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+                    textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
               ),
               const Padding(
                 padding: EdgeInsets.only(top: 30, bottom: 30),
@@ -46,21 +48,31 @@ class _LoginScreenState extends State<LoginScreen> {
                   try {
                     final user = await UserController.loginWithGoogle();
                     if (user != null && mounted) {
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: (context) => BaseScreen()));
+                      AuthController _authController = AuthController();
+                      var bool = await _authController.checkUserExist(user.uid);
+                      if (!bool) {
+                        var error = await _authController
+                            .createUserFromGoogleSignIn(user);
+                        if (error != null) {
+                          showAlert(context, 'Google Sign In Error', error);
+                        }
+                      } else {
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: (context) => BaseScreen()));
+                      }
                     }
                   } on FirebaseAuthException catch (error) {
                     print(error.message);
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: Text(
-                          error.message ?? "Something went wrong",
-                        )));
+                      error.message ?? "Something went wrong",
+                    )));
                   } catch (error) {
                     print(error);
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: Text(
-                          error.toString(),
-                        )));
+                      error.toString(),
+                    )));
                   }
                 },
                 icon: const Icon(IconlyLight.login),

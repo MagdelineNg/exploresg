@@ -6,7 +6,7 @@ import 'package:hidden_gems_sg/screens/place_ui.dart';
 import 'package:hidden_gems_sg/helper/utils.dart';
 import 'package:hidden_gems_sg/models/place.dart';
 import 'package:hidden_gems_sg/helper/location_controller.dart';
-// import 'package:exploresg/helper/favourites_controller.dart';
+import 'package:hidden_gems_sg/helper/favourites_controller.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -33,7 +33,7 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreen extends State<SearchScreen> {
-  // FavouritesController _favouritesController = FavouritesController();
+  FavouritesController _favouritesController = FavouritesController();
   SearchController _searchController = SearchController();
   Locator _locator = new Locator();
   late LatLng _userLoc;
@@ -93,49 +93,49 @@ class _SearchScreen extends State<SearchScreen> {
     );
   }
 
-  // Widget _addFav(Place place, double height, double width) {
-  //   return Container(
-  //     color: Colors.white,
-  //     child: Row(
-  //       crossAxisAlignment: CrossAxisAlignment.end,
-  //       mainAxisAlignment: MainAxisAlignment.center,
-  //       children: [
-  //         Row(
-  //           children: [
-  //             InkWell(
-  //                 onTap: () async {
-  //                   await _favouritesController.addOrRemoveFav(place.id);
-  //                   _favourites =
-  //                       await _favouritesController.getFavouritesList();
-  //                   print('<3 pressed');
-  //                   setState(() {
-  //                     place.likes = !place.likes;
-  //                   });
-  //                   print(place.likes);
-  //                 },
-  //                 child: _favourites.contains(place.id)
-  //                     ? Icon(
-  //                         Icons.favorite,
-  //                         color: Color(0xffE56372),
-  //                       )
-  //                     : Icon(
-  //                         Icons.favorite_border,
-  //                         color: Color(0xffE56372),
-  //                       )),
-  //             SizedBox(
-  //               width: 10,
-  //             ),
-  //             textMinor(
-  //                 _favourites.contains(place.id)
-  //                     ? 'added to favourites'
-  //                     : 'add to favourites',
-  //                 Color(0xffD1D1D6))
-  //           ],
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
+  Widget _addFav(Place place, double height, double width) {
+    return Container(
+      color: Colors.white,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Row(
+            children: [
+              InkWell(
+                  onTap: () async {
+                    await _favouritesController.addOrRemoveFav(place.id);
+                    _favourites =
+                        await _favouritesController.getFavouritesList(context);
+                    print('<3 pressed');
+                    setState(() {
+                      place.likes = !place.likes;
+                    });
+                    print(place.likes);
+                  },
+                  child: _favourites.contains(place.id)
+                      ? Icon(
+                          Icons.favorite,
+                          color: Color(0xffE56372),
+                        )
+                      : Icon(
+                          Icons.favorite_border,
+                          color: Color(0xffE56372),
+                        )),
+              SizedBox(
+                width: 10,
+              ),
+              textMinor(
+                  _favourites.contains(place.id)
+                      ? 'added to favourites'
+                      : 'add to favourites',
+                  Color(0xffD1D1D6))
+            ],
+          ),
+        ],
+      ),
+    );
+  }
 
   Widget _printSearch(List<Place> places, double height, double width) {
     return Container(
@@ -159,14 +159,11 @@ class _SearchScreen extends State<SearchScreen> {
                         places[index],
                         0.8 * width,
                         0.215 * height,
-                        //// TODO: this is placed here to avoid error
-                        //// TODO: fix _addfav and remove this
-                        Container(),
-                        // _addFav(
-                        //   places[index],
-                        //   0.05 * height,
-                        //   0.8 * width,
-                        // ),
+                        _addFav(
+                          places[index],
+                          0.05 * height,
+                          0.8 * width,
+                        ),
                         Container(),
                         calculateDistance(
                             _userLoc.latitude,

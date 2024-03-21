@@ -77,18 +77,18 @@ class _BaseScreen extends State<BaseScreen> {
         routeAndNavigatorSettings: RouteAndNavigatorSettings(
           initialRoute: '/favourites',
           onGenerateRoute: (RouteSettings? settings) {
-            // switch (settings!.name) {
-            //   case PlaceScreen.routeName:
-            //     {
-            //       final PlaceScreenArguments args =
-            //       settings.arguments as PlaceScreenArguments;
-            //       return MaterialPageRoute(builder: (context) {
-            //         return PlaceScreen(args.place, args.favourites);
-            //       });
-            //       // ignore: dead_code
-            //       break;
-            //     }
-            // }
+            switch (settings!.name) {
+              case PlaceScreen.routeName:
+                {
+                  final PlaceScreenArguments args =
+                      settings.arguments as PlaceScreenArguments;
+                  return MaterialPageRoute(builder: (context) {
+                    return PlaceScreen(args.place, args.favourites);
+                  });
+                  // ignore: dead_code
+                  break;
+                }
+            }
             return null;
           },
         ),
@@ -100,18 +100,18 @@ class _BaseScreen extends State<BaseScreen> {
         routeAndNavigatorSettings: RouteAndNavigatorSettings(
           initialRoute: '/tracker',
           onGenerateRoute: (RouteSettings? settings) {
-            // switch (settings!.name) {
-            //   case PlaceScreen.routeName:
-            //     {
-            //       final PlaceScreenArguments args =
-            //           settings.arguments as PlaceScreenArguments;
-            //       return MaterialPageRoute(builder: (context) {
-            //         return PlaceScreen(args.place, args.favourites);
-            //       });
-            //       // ignore: dead_code
-            //       break;
-            //     }
-            // }
+            switch (settings!.name) {
+              case PlaceScreen.routeName:
+                {
+                  final PlaceScreenArguments args =
+                      settings.arguments as PlaceScreenArguments;
+                  return MaterialPageRoute(builder: (context) {
+                    return PlaceScreen(args.place, args.favourites);
+                  });
+                  // ignore: dead_code
+                  break;
+                }
+            }
             return null;
           },
         ),
@@ -199,12 +199,12 @@ class _BaseScreen extends State<BaseScreen> {
       ),
       popAllScreensOnTapOfSelectedTab: true,
       popActionScreens: PopActionScreensType.all,
-      itemAnimationProperties: ItemAnimationProperties(
+      itemAnimationProperties: const ItemAnimationProperties(
         // Navigation Bar's items animation properties.
         duration: Duration(milliseconds: 200),
         curve: Curves.ease,
       ),
-      screenTransitionAnimation: ScreenTransitionAnimation(
+      screenTransitionAnimation: const ScreenTransitionAnimation(
         // Screen transition animation on change of selected tab.
         animateTabTransition: true,
         curve: Curves.ease,

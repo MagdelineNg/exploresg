@@ -10,6 +10,7 @@ import 'package:hidden_gems_sg/screens/search_ui.dart';
 import 'package:hidden_gems_sg/helper/utils.dart';
 import 'package:hidden_gems_sg/helper/home_controller.dart';
 import 'package:hidden_gems_sg/helper/location_controller.dart';
+import 'package:hidden_gems_sg/helper/favourites_controller.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hidden_gems_sg/models/place.dart';
@@ -26,6 +27,7 @@ class _HomeScreen extends State<HomeScreen> {
   Locator _locator = Locator();
   TextEditingController _searchController = TextEditingController();
   HomeController _homeController = HomeController();
+  FavouritesController _favouritesController = FavouritesController();
   late LatLng _userLoc;
   bool _isLoaded = false;
   bool _searchByCategory = false;
@@ -43,9 +45,8 @@ class _HomeScreen extends State<HomeScreen> {
     if (result != null) {
       _userLoc = result;
     }
-    //// TODO: add favourites controller
     _places = await _homeController.loadRecommendations(context);
-    //_favourites = await _favouritesController.getFavouritesList();
+    _favourites = await _favouritesController.getFavouritesList(context);
     setState(() {
       _isLoaded = true;
     });
@@ -407,10 +408,9 @@ class _HomeScreen extends State<HomeScreen> {
             children: [
               InkWell(
                   onTap: () async {
-                    //// TODO: add favourites controller
-                    //await _favouritesController.addOrRemoveFav(place.id);
-                    //_favourites =
-                    // await _favouritesController.getFavouritesList();
+                    await _favouritesController.addOrRemoveFav(place.id);
+                    _favourites =
+                        await _favouritesController.getFavouritesList(context);
                     setState(() {
                       place.likes = !place.likes;
                     });
