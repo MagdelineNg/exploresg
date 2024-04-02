@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collection/collection.dart';
-import 'package:exploresg/helper/auth_controller.dart';
-import 'package:exploresg/models/review.dart';
-import 'package:exploresg/models/user.dart';
+import 'package:hidden_gems_sg/helper/auth_controller.dart';
+import 'package:hidden_gems_sg/models/review.dart';
+import 'package:hidden_gems_sg/models/user.dart';
 
 class ReviewsController {
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -74,9 +74,9 @@ class ReviewsController {
         .collection('place/$placeID/reviews')
         .get()
         .then((querySnapshot) {
-      querySnapshot.docs.forEach((user) {
+      for (var user in querySnapshot.docs) {
         ratingsList.add(user['rating']);
-      });
+      }
     });
 
     if (ratingsList.isEmpty) {
@@ -123,10 +123,10 @@ class ReviewsController {
         .collection('place/$placeID/reviews')
         .get()
         .then((querySnapshot) {
-      querySnapshot.docs.forEach((snapshot) async {
+      for (var snapshot in querySnapshot.docs) {
         Review temp = Review.fromSnapshot(snapshot);
         reviewsList.add(temp);
-      });
+      }
     });
     return reviewsList;
   }
@@ -136,7 +136,7 @@ class ReviewsController {
     if (user.exists) {
       UserModel userModel = UserModel.fromSnapshot(user);
       String displayName =
-          userModel.getFirstName() + ' ' + userModel.getLastName();
+          '${userModel.getFirstName()} ${userModel.getLastName()}';
       return displayName;
     }
     return '';

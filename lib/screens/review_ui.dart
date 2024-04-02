@@ -1,9 +1,9 @@
-// import 'package:exploresg/helper/auth_controller.dart';
-import 'package:exploresg/helper/reviews_controller.dart';
-import 'package:exploresg/helper/utils.dart';
+import 'package:hidden_gems_sg/helper/auth_controller.dart';
+import 'package:hidden_gems_sg/helper/reviews_controller.dart';
+import 'package:hidden_gems_sg/helper/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:exploresg/models/place.dart';
+import 'package:hidden_gems_sg/models/place.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../models/review.dart';

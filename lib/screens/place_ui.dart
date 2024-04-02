@@ -1,14 +1,12 @@
-//// TODO: Finish reviews and invitation functionality
-
 import 'package:hidden_gems_sg/helper/auth_controller.dart';
 import 'package:hidden_gems_sg/helper/invitation_controller.dart';
-// import 'package:hidden_gems_sg/helper/reviews_controller.dart';
+import 'package:hidden_gems_sg/helper/reviews_controller.dart';
 import 'package:hidden_gems_sg/helper/tracker_controller.dart';
 import 'package:hidden_gems_sg/helper/utils.dart';
 import 'package:hidden_gems_sg/models/invitation.dart';
 import 'package:hidden_gems_sg/models/place.dart';
-// import 'package:hidden_gems_sg/models/review.dart';
-// import 'package:hidden_gems_sg/screens/review_ui.dart';
+import 'package:hidden_gems_sg/models/review.dart';
+import 'package:hidden_gems_sg/screens/review_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:hidden_gems_sg/helper/favourites_controller.dart';
@@ -26,7 +24,7 @@ class PlaceScreen extends StatefulWidget {
   final Place place;
   final List<String> favourites;
 
-  PlaceScreen(this.place, this.favourites);
+  const PlaceScreen(this.place, this.favourites, {super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -36,27 +34,26 @@ class PlaceScreen extends StatefulWidget {
 
 class _PlaceScreen extends State<PlaceScreen> {
   String _dropDownValue = 'unexplored';
-  AuthController _authController = AuthController();
-  InvitationController _invitationController = InvitationController();
-  FavouritesController _favouritesController = FavouritesController();
-  //// TODO: Add reviews, and tracker controller
-  // ReviewsController _reviewsController = ReviewsController();
-  // TrackerController _trackerController = TrackerController();
-  AuthController _auth = AuthController();
+  final AuthController _authController = AuthController();
+  final InvitationController _invitationController = InvitationController();
+  final FavouritesController _favouritesController = FavouritesController();
+  final ReviewsController _reviewsController = ReviewsController();
+  final TrackerController _trackerController = TrackerController();
+  final AuthController _auth = AuthController();
   final _usernameKey = GlobalKey<FormState>();
-  List<String> _favourites = [], _usernames = [];
+  List<String> _favourites = [];
+  final List<String> _usernames = [];
   bool _isLoaded = false,
       _userReviewExists = false,
       _isDate = false,
       _isTime = false,
       _isSending = false;
   String _userID = '', _submittable = 'NA', _selectedTime = '', _username = '';
-  //// TODO: Add review and placeRating
-  // Review _prevReview = Review('', '', '', 0); //to view previous review data
-  // Review _newReview = Review('', '', '', 0); //to store new review data
-  // late PlaceRating _placeRating;
+  Review _prevReview = Review('', '', '', 0); //to view previous review data
+  Review _newReview = Review('', '', '', 0); //to store new review data
+  late PlaceRating _placeRating;
   DateTime _selectedDate = DateTime.now();
-  TextEditingController _textController = new TextEditingController();
+  final TextEditingController _textController = TextEditingController();
   List<Invitation> _exploredPlaces = [];
   List<String> _dropDownValues = ['unexplored', 'to explore', 'explored'];
 
@@ -128,10 +125,9 @@ class _PlaceScreen extends State<PlaceScreen> {
           textMinor('google ratings: ', const Color(0xff22254C)),
           InkWell(
             onTap: () {
-              //// TODO: Add review screen
-              // Navigator.of(context).push(MaterialPageRoute(
-              //   builder: (context) => ReviewsScreen(widget.place),
-              // ));
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => ReviewsScreen(widget.place),
+              ));
             },
             child: textMinor('exploreSG ratings: ', const Color(0xff22254C)),
           ),
@@ -156,30 +152,27 @@ class _PlaceScreen extends State<PlaceScreen> {
             itemSize: 20,
             direction: Axis.horizontal,
           ),
-          Container(
-            child: const Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                //// TODO: add this after rating is implemented
-                // textMinor(
-                //   '(' + _placeRating.getTotalNumRating().toString() + ')',
-                //   Color(0xff6488E5),
-                // ),
-                // SizedBox(
-                //   width: 2,
-                // ),
-                // RatingBarIndicator(
-                //   rating: _placeRating.averageRating,
-                //   itemBuilder: (context, index) => Icon(
-                //     Icons.star,
-                //     color: Colors.amber,
-                //   ),
-                //   itemCount: 5,
-                //   itemSize: 20,
-                //   direction: Axis.horizontal,
-                // ),
-              ],
-            ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              textMinor(
+                '(${_placeRating.getTotalNumRating()})',
+                const Color(0xff6488E5),
+              ),
+              const SizedBox(
+                width: 2,
+              ),
+              RatingBarIndicator(
+                rating: _placeRating.averageRating,
+                itemBuilder: (context, index) => const Icon(
+                  Icons.star,
+                  color: Colors.amber,
+                ),
+                itemCount: 5,
+                itemSize: 20,
+                direction: Axis.horizontal,
+              ),
+            ],
           ),
         ],
       ),
@@ -221,10 +214,9 @@ class _PlaceScreen extends State<PlaceScreen> {
             children: [
               InkWell(
                 onTap: () {
-                  //// TODO: Add review screen
-                  // Navigator.of(context).push(MaterialPageRoute(
-                  //   builder: (context) => ReviewsScreen(widget.place),
-                  // ));
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => ReviewsScreen(widget.place),
+                  ));
                 },
                 child: textMinor(
                   'see exploreSG reviews',
@@ -570,23 +562,22 @@ class _PlaceScreen extends State<PlaceScreen> {
                 const Color(0xff22254C),
               ),
               const SizedBox(width: 7),
-              //// TODO: Add rating functionality
-              // RatingBar.builder(
-              //   initialRating:
-              //       _userReviewExists ? _prevReview.getUserRating() : 0,
-              //   minRating: 1,
-              //   direction: Axis.horizontal,
-              //   allowHalfRating: true,
-              //   itemCount: 5,
-              //   itemSize: 22,
-              //   itemBuilder: (context, _) => Icon(
-              //     Icons.star,
-              //     color: Colors.amber,
-              //   ),
-              //   onRatingUpdate: (rating) {
-              //     _newReview.setUserRating(rating);
-              //   },
-              // ),
+              RatingBar.builder(
+                initialRating:
+                    _userReviewExists ? _prevReview.getUserRating() : 0,
+                minRating: 1,
+                direction: Axis.horizontal,
+                allowHalfRating: true,
+                itemCount: 5,
+                itemSize: 22,
+                itemBuilder: (context, _) => const Icon(
+                  Icons.star,
+                  color: Colors.amber,
+                ),
+                onRatingUpdate: (rating) {
+                  _newReview.setUserRating(rating);
+                },
+              ),
             ],
           ),
           const SizedBox(height: 25),
@@ -686,28 +677,27 @@ class _PlaceScreen extends State<PlaceScreen> {
   }
 
   void submitReview(String review) async {
-    //// TODO: Add review controller
-    // _userReviewExists =
-    //     await _reviewsController.userReviewExists(widget.place.id, _userID);
-    // setState(() {
-    //   _newReview.setUserReview(review);
-    //   _newReview.setPlaceID(widget.place.id);
-    //   _newReview.setUserID(_userID);
-    //   if (_newReview.getUserRating() == 0 || _newReview.getUserReview() == '') {
-    //     //either field is empty--invalid input
-    //     _submittable = 'NO';
-    //     null;
-    //   } else if (_userReviewExists) {
-    //     //if user's review already exists, just update review
-    //     _reviewsController.updateReview(_newReview);
-    //     _submittable = 'YES';
-    //   } else {
-    //     //user's review does not exist, create new one
-    //     _reviewsController.createReview(_newReview);
-    //     _submittable = 'YES';
-    //   }
-    //   _prevReview.setUserReview(review);
-    // });
+    _userReviewExists =
+        await _reviewsController.userReviewExists(widget.place.id, _userID);
+    setState(() {
+      _newReview.setUserReview(review);
+      _newReview.setPlaceID(widget.place.id);
+      _newReview.setUserID(_userID);
+      if (_newReview.getUserRating() == 0 || _newReview.getUserReview() == '') {
+        //either field is empty--invalid input
+        _submittable = 'NO';
+        null;
+      } else if (_userReviewExists) {
+        //if user's review already exists, just update review
+        _reviewsController.updateReview(_newReview);
+        _submittable = 'YES';
+      } else {
+        //user's review does not exist, create new one
+        _reviewsController.createReview(_newReview);
+        _submittable = 'YES';
+      }
+      _prevReview.setUserReview(review);
+    });
   }
 
   Future _showDatePicker(BuildContext context) async {
@@ -803,34 +793,33 @@ class _PlaceScreen extends State<PlaceScreen> {
   }
 
   void _init() async {
-    //// TODO: Wait for reviews and invitation controller to be added
-    // _favourites = widget.favourites;
-    // _userID = _auth.getCurrentUser()!.uid;
-    // _userReviewExists =
-    //     await _reviewsController.userReviewExists(widget.place.id, _userID);
-    // if (_userReviewExists) {
-    //   _prevReview =
-    //       (await _reviewsController.getReview(widget.place.id, _userID))!;
-    //   _newReview = _prevReview;
-    // }
-    // setMyStatus();
-    // _placeRating = await _reviewsController.getPlaceRating(widget.place.id);
-    // _textController.text = _prevReview.getUserReview();
-    // var results = await _trackerController.getConfirmedInvitations(_userID);
-    // if (results.length != 0) {
-    //   var sorted =
-    //       await _trackerController.sortBasedOnToExploreAndExplored(results);
-    //   _exploredPlaces = sorted[1];
-    //   if (_exploredPlaces.length != 0) {
-    //     for (Invitation iv in _exploredPlaces) {
-    //       if (iv.getPlace() == widget.place.id) {
-    //         _dropDownValues = ['to explore', 'explored'];
-    //         _dropDownValue = 'explored';
-    //         break;
-    //       }
-    //     }
-    //   }
-    // }
+    _favourites = widget.favourites;
+    _userID = _auth.getCurrentUser()!.uid;
+    _userReviewExists =
+        await _reviewsController.userReviewExists(widget.place.id, _userID);
+    if (_userReviewExists) {
+      _prevReview =
+          (await _reviewsController.getReview(widget.place.id, _userID))!;
+      _newReview = _prevReview;
+    }
+    setMyStatus();
+    _placeRating = await _reviewsController.getPlaceRating(widget.place.id);
+    _textController.text = _prevReview.getUserReview();
+    var results = await _trackerController.getConfirmedInvitations(_userID);
+    if (results.isNotEmpty) {
+      var sorted =
+          await _trackerController.sortBasedOnToExploreAndExplored(results);
+      _exploredPlaces = sorted[1];
+      if (_exploredPlaces.isNotEmpty) {
+        for (Invitation iv in _exploredPlaces) {
+          if (iv.getPlace() == widget.place.id) {
+            _dropDownValues = ['to explore', 'explored'];
+            _dropDownValue = 'explored';
+            break;
+          }
+        }
+      }
+    }
     setState(() {
       _isLoaded = true;
     });

@@ -1,34 +1,105 @@
-import 'package:geolocator/geolocator.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:hidden_gems_sg/models/invitation.dart';
+import 'package:hidden_gems_sg/models/user.dart';
 
-class Locator {
-  var geoLocator = Geolocator();
+class TrackerController {
+  FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<LatLng?> getCurrentLocation() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      // return Future.error('Location services are disabled.');
-      return null;
-    }
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        // return Future.error('Location permissions are denied');
-        return null;
+  Future<List<Invitation>> getConfirmedInvitations(String uid) async {
+    List<Invitation> invites = [];
+    await _firestore
+        .collection('users')
+        .doc(uid)
+        .collection('toExplore')
+        .get()
+        .then((value) {
+      if (value.size != 0) {
+        for (var n in value.docs) {
+          Invitation invitation = Invitation.fromSnapshot(n);
+          invites.add(invitation);
+        }
+      }
+    });
+    return invites;
+  }
+
+  Future<List<List<Invitation>>> sortBasedOnToExploreAndExplored(
+      List<Invitation> invites) async {
+    List<Invitation> toExplore = [], explored = [];
+    for (Invitation invite in invites) {
+      if (invite.visited) {
+        explored.add(invite);
+      } else {
+        toExplore.add(invite);
       }
     }
+    return [toExplore, explored];
+  }
 
-    if (permission == LocationPermission.deniedForever) {
-      // return Future.error('Location permissions are permanently denied, we cannot request permissions.');
-      return null;
+  Future acceptInvite(Invitation invite, UserModel user) async {
+    DocumentReference invitesRef = _firestore
+        .collection('users')
+        .doc(user.id)
+        .collection('invites')
+        .doc(invite.id);
+    for (UserModel u in invite.users) {
+      DocumentReference toExploreRef = _firestore
+          .collection('users')
+          .doc(u.id)
+          .collection('toExplore')
+          .doc(invite.id);
+      late Invitation currentInvite;
+      await toExploreRef.get().then((value) {
+        currentInvite = Invitation.fromSnapshot(value);
+        currentInvite.addUsers(user);
+      });
+      await toExploreRef.update(currentInvite.toJson());
     }
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-    return LatLng(position.latitude, position.longitude);
+    invite.addUsers(user);
+    await _firestore
+        .collection('users')
+        .doc(user.id)
+        .collection('toExplore')
+        .doc(invite.id)
+        .set(invite.toJson());
+    await invitesRef.delete();
+  }
+
+  Future rejectInvite(Invitation invite, UserModel user) async {
+    await _firestore
+        .collection('users')
+        .doc(user.id)
+        .collection('invites')
+        .doc(invite.id)
+        .delete();
+  }
+
+  Future setExplored(Invitation invite, String user) async {
+    invite.visited = true;
+    await _firestore
+        .collection('users')
+        .doc(user)
+        .collection('toExplore')
+        .doc(invite.id)
+        .update(invite.toJson());
+  }
+
+  Future setToExplored(Invitation invite, String user) async {
+    invite.visited = false;
+    await _firestore
+        .collection('users')
+        .doc(user)
+        .collection('toExplore')
+        .doc(invite.id)
+        .update(invite.toJson());
+  }
+
+  Future setUnexplored(Invitation invite, String user) async {
+    await _firestore
+        .collection('users')
+        .doc(user)
+        .collection('toExplore')
+        .doc(invite.id)
+        .delete();
   }
 }
-
-
