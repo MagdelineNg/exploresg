@@ -1,4 +1,3 @@
-import 'package:hidden_gems_sg/helper/auth_controller.dart';
 import 'package:hidden_gems_sg/helper/reviews_controller.dart';
 import 'package:hidden_gems_sg/helper/utils.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +11,7 @@ class ReviewsScreen extends StatefulWidget {
   static const routeName = '/exploreReviews';
   final Place place;
 
-  ReviewsScreen(this.place);
+  const ReviewsScreen(this.place, {super.key});
 
   @override
   State<ReviewsScreen> createState() => _ReviewsScreenState();
@@ -20,7 +19,7 @@ class ReviewsScreen extends StatefulWidget {
 
 class _ReviewsScreenState extends State<ReviewsScreen> {
   bool _isLoaded = false;
-  ReviewsController _reviewsController = ReviewsController();
+  final ReviewsController _reviewsController = ReviewsController();
 
   List<Review> reviews = [];
   List<String> displayNames = [];
@@ -57,13 +56,13 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
         },
         child: Row(
           children: [
-            Icon(
+            const Icon(
               Icons.arrow_back_ios,
               color: Color(0xff22254C),
             ),
             textMinor(
               'back',
-              Color(0xff22254C),
+              const Color(0xff22254C),
             ),
           ],
         ),
@@ -75,13 +74,13 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
       String userName, String pfp_url, double rating, String review) {
     final _w = MediaQuery.of(context).size.width;
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(
           Radius.circular(20),
         ),
       ),
-      padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+      padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
       width: _w,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,20 +89,20 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
             children: [
               CircleAvatar(
                 foregroundImage: NetworkImage(pfp_url),
-                backgroundColor: Color(0xff6488E5),
+                backgroundColor: const Color(0xff6488E5),
                 child: Text(userName[0]),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 20,
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  textMinorBold(userName, Color(0xff22254C), 14),
+                  textMinorBold(userName, const Color(0xff22254C), 14),
                   RatingBarIndicator(
                     rating: rating,
-                    itemBuilder: (context, index) => Icon(
+                    itemBuilder: (context, index) => const Icon(
                       Icons.star,
                       color: Colors.amber,
                     ),
@@ -115,11 +114,11 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
-          textMinor(review, Color(0xff22254C)),
-          SizedBox(
+          textMinor(review, const Color(0xff22254C)),
+          const SizedBox(
             height: 15,
           ),
         ],
@@ -132,7 +131,7 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
       itemCount: reviews.length,
       itemBuilder: (context, index) {
         return SingleChildScrollView(
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           child: Column(
             children: [
               _reviewContainer(
@@ -140,7 +139,7 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
                   PFPs[index],
                   reviews[index].getUserRating(),
                   reviews[index].getUserReview()),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               )
             ],
@@ -148,7 +147,7 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
         );
       },
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
     );
   }
 
@@ -178,31 +177,32 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
   Widget build(BuildContext context) {
     return _isLoaded
         ? Scaffold(
-            backgroundColor: Color(0xfffffcec),
+            backgroundColor: const Color(0xfffffcec),
             body: SingleChildScrollView(
               child: Column(
                 children: [
                   _topVector(),
                   _back(),
                   Container(
-                    margin: EdgeInsets.symmetric(horizontal: 40),
+                    margin: const EdgeInsets.symmetric(horizontal: 40),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        SizedBox(
+                        const SizedBox(
                           height: 7,
                         ),
+                        textMajor(widget.place.getPlaceName(),
+                            const Color(0xff22254C), 36),
                         textMajor(
-                            widget.place.getPlaceName(), Color(0xff22254C), 36),
-                        textMajor('explorer reviews', Color(0xff22254C), 36),
-                        SizedBox(
+                            'explorer reviews', const Color(0xff22254C), 36),
+                        const SizedBox(
                           height: 10,
                         ),
                         reviews.isEmpty
                             ? textMinor(
                                 'no reviews to show',
-                                Color(0xffd1d1d6),
+                                const Color(0xffd1d1d6),
                               )
                             //Actual review list comes from here
                             : _review(reviews),
@@ -210,9 +210,9 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
                             ? Container()
                             : textMinor(
                                 'no more to show...',
-                                Color(0xffd1d1d6),
+                                const Color(0xffd1d1d6),
                               ),
-                        SizedBox(
+                        const SizedBox(
                           height: 25,
                         )
                       ],
@@ -223,8 +223,8 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
             ),
           )
         : Container(
-            color: Color(0XffFFF9ED),
-            child: Center(
+            color: const Color(0XffFFF9ED),
+            child: const Center(
               child: CircularProgressIndicator(),
             ),
           );

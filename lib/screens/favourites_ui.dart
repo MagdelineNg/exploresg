@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:hidden_gems_sg/models/place.dart';
 
 class FavouriteScreen extends StatefulWidget {
+  const FavouriteScreen({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return _FavouriteScreen();
@@ -13,11 +15,11 @@ class FavouriteScreen extends StatefulWidget {
 }
 
 class _FavouriteScreen extends State<FavouriteScreen> {
-  PlacesApi _placesApi = PlacesApi();
+  final PlacesApi _placesApi = PlacesApi();
   List<String> _favourites = [];
   List<Place> _favourite_places = [];
   bool _isLoaded = false;
-  FavouritesController _favouritesController = FavouritesController();
+  final FavouritesController _favouritesController = FavouritesController();
 
   @override
   void initState() {
@@ -27,7 +29,7 @@ class _FavouriteScreen extends State<FavouriteScreen> {
 
   Widget _addFav(int index, Place place, double height, double width) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(20))),
       child: Row(
@@ -46,23 +48,23 @@ class _FavouriteScreen extends State<FavouriteScreen> {
                   setState(() {});
                 },
                 child: _favourites.contains(place.id)
-                    ? Icon(
+                    ? const Icon(
                         Icons.favorite,
                         color: Color(0xffE56372),
                       )
-                    : Icon(
+                    : const Icon(
                         Icons.favorite_border,
                         color: Color(0xffE56372),
                       ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               textMinor(
                 _favourites.contains(place.id)
                     ? 'added to favourites'
                     : 'add to favourites',
-                Color(0xffD1D1D6),
+                const Color(0xffD1D1D6),
               )
             ],
           ),
@@ -74,7 +76,7 @@ class _FavouriteScreen extends State<FavouriteScreen> {
   Widget recommendedList(List<Place> places, double height, double width) {
     return ListView.builder(
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       itemCount: places.length,
       itemBuilder: (context, index) {
         return Column(
@@ -97,7 +99,7 @@ class _FavouriteScreen extends State<FavouriteScreen> {
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
           ],
@@ -136,46 +138,44 @@ class _FavouriteScreen extends State<FavouriteScreen> {
               _reload();
             },
             child: Scaffold(
-              backgroundColor: Color(0xFFFFF9ED),
-              body: Container(
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          _reload();
-                        },
-                        child: topBar('favourites', height, width,
-                            'assets/img/favourites-top.svg'),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      recommendedList(_favourite_places, height, width),
-                      Container(
-                          child: _favourite_places.length == 0
-                              ? textMinor("No favourites", Colors.black)
-                              : Container(
-                                  height: 10,
-                                )),
-                      SizedBox(height: 20)
-                    ],
-                  ),
+              backgroundColor: const Color(0xFFFFF9ED),
+              body: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        _reload();
+                      },
+                      child: topBar('favourites', height, width,
+                          'assets/img/favourites-top.svg'),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    recommendedList(_favourite_places, height, width),
+                    Container(
+                        child: _favourite_places.isEmpty
+                            ? textMinor("No favourites", Colors.black)
+                            : Container(
+                                height: 10,
+                              )),
+                    const SizedBox(height: 20)
+                  ],
                 ),
               ),
             ),
           )
         : Container(
-            color: Color(0XffFFF9ED),
-            child: Center(
+            color: const Color(0XffFFF9ED),
+            child: const Center(
               child: CircularProgressIndicator(),
             ),
           );

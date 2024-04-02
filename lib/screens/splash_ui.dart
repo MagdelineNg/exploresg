@@ -1,13 +1,14 @@
 import 'dart:async';
-// import 'package:exploresg/helper/auth_controller.dart';
+import 'package:hidden_gems_sg/helper/auth_controller.dart';
 import 'package:hidden_gems_sg/screens/base_ui.dart';
-// import 'package:exploresg/screens/login_ui.dart';
+import 'package:hidden_gems_sg/screens/login_ui.dart';
 import 'package:flutter/material.dart';
-
 import '../helper/utils.dart';
 
 class SplashScreen extends StatefulWidget {
   static const routeName = '/splash';
+
+  const SplashScreen({super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -16,7 +17,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreen extends State<SplashScreen> {
-/*  AuthController _auth = AuthController();*/
+  final AuthController _auth = AuthController();
 
   @override
   void initState() {
@@ -25,18 +26,17 @@ class _SplashScreen extends State<SplashScreen> {
   }
 
   Future<Timer> _timer() async {
-    var d = Duration(seconds: 3);
+    var d = const Duration(seconds: 3);
     return Timer(d, _homePage);
   }
 
   void _homePage() {
-    //var user = _auth.getCurrentUser();
-    Navigator.pushReplacementNamed(context, BaseScreen.routeName);
-    // if (user != null) {
-    //   Navigator.pushReplacementNamed(context, BaseScreen.routeName);
-    // } else {
-    //   Navigator.pushReplacementNamed(context, LoginScreen.routeName);
-    // }
+    var user = _auth.getCurrentUser();
+    if (user != null) {
+      Navigator.pushReplacementNamed(context, BaseScreen.routeName);
+    } else {
+      // Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+    }
   }
 
   @override
@@ -44,7 +44,7 @@ class _SplashScreen extends State<SplashScreen> {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
-      body: Container(
+      body: SizedBox(
         height: height,
         width: width,
         child: Stack(
@@ -54,12 +54,12 @@ class _SplashScreen extends State<SplashScreen> {
             Positioned(
               top: height / 4,
               left: width / 4.5,
-              child: textMajor('explore', Color(0xff22254C), 36),
+              child: textMajor('explore', const Color(0xff22254C), 36),
             ),
             Positioned(
                 top: height / 3.5,
                 left: width / 2.2,
-                child: textMajor('SG', Color(0xff22254C), 36)),
+                child: textMajor('SG', const Color(0xff22254C), 36)),
             Positioned(
               top: height / 2.9,
               left: width / 4.5,
@@ -67,7 +67,7 @@ class _SplashScreen extends State<SplashScreen> {
                 width: width / 1.8,
                 child: textMinor(
                     'discover new places and invite your friends to go together!',
-                    Color(0xff22254C)),
+                    const Color(0xff22254C)),
               ),
             ),
             Positioned(
@@ -79,8 +79,8 @@ class _SplashScreen extends State<SplashScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    textMinor('Copyright HDMILF 2022', Color(0xff22254C)),
-                    textMinor('All rights reserved', Color(0xff22254C))
+                    textMinor('Copyright HDMILF 2022', const Color(0xff22254C)),
+                    textMinor('All rights reserved', const Color(0xff22254C))
                   ],
                 ),
               ),

@@ -1,38 +1,36 @@
-// ignore_for_file: prefer_const_constructors
-
-import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-// import 'package:hidden_gems_sg/helper/tracker_controller.dart';
-// import 'package:geolocator/geolocator.dart';
-// import 'package:google_maps/google_maps.dart';
-// import 'package:hidden_gems_sg/theme/theme_constants.dart';
-import 'package:hidden_gems_sg/screens/search_ui.dart';
-import 'package:hidden_gems_sg/helper/utils.dart';
 import 'package:hidden_gems_sg/helper/home_controller.dart';
-import 'package:hidden_gems_sg/helper/location_controller.dart';
 import 'package:hidden_gems_sg/helper/favourites_controller.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:hidden_gems_sg/helper/location_controller.dart';
+import 'package:hidden_gems_sg/helper/utils.dart';
 import 'package:hidden_gems_sg/models/place.dart';
+import 'package:hidden_gems_sg/screens/search_ui.dart';
+import 'package:hidden_gems_sg/screens/place_ui.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
-  State<StatefulWidget> createState() => _HomeScreen();
+  State<StatefulWidget> createState() {
+    return _HomeScreen();
+  }
 }
 
 class _HomeScreen extends State<HomeScreen> {
   String _placeTypeDropdownValue = 'airport',
       _filterByDropdownValue = 'filter by',
       _prevFilter = '';
-  Locator _locator = Locator();
-  TextEditingController _searchController = TextEditingController();
-  HomeController _homeController = HomeController();
-  FavouritesController _favouritesController = FavouritesController();
-  late LatLng _userLoc;
-  bool _isLoaded = false;
-  bool _searchByCategory = false;
+  bool _searchByCategory = false, _isLoaded = false;
+  final TextEditingController _searchController = TextEditingController();
+  final HomeController _homeController = HomeController();
+  final FavouritesController _favouritesController = FavouritesController();
+  final Locator _locator = Locator();
   List<Place>? _places = [];
   List<String> _favourites = [];
+  late LatLng _userLoc;
 
   @override
   void initState() {
@@ -52,25 +50,7 @@ class _HomeScreen extends State<HomeScreen> {
     });
   }
 
-  Future<void> _reload() async {
-    _isLoaded = false;
-    _places = await _homeController.loadRecommendations(context);
-    setState(() {
-      _isLoaded = true;
-    });
-  }
-
-  Widget _dropDownList(double width, DropdownButtonFormField DDL) {
-    return Container(
-        width: width,
-        padding: EdgeInsets.symmetric(horizontal: 0.1 * width),
-        margin: EdgeInsets.symmetric(vertical: 5),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20), color: Colors.white),
-        child: DDL);
-  }
-
-  InputDecoration dropdownDeco = InputDecoration(
+  InputDecoration dropdownDeco = const InputDecoration(
       border: InputBorder.none,
       focusedBorder: InputBorder.none,
       enabledBorder: InputBorder.none,
@@ -78,8 +58,18 @@ class _HomeScreen extends State<HomeScreen> {
       disabledBorder: InputBorder.none,
       labelStyle: TextStyle(color: Color(0xff22254C), fontSize: 16));
 
-  RangeValues _priceValues = RangeValues(0, 4);
-  RangeValues _ratingValues = RangeValues(1, 5);
+  Widget _dropDownList(double width, DropdownButtonFormField DDL) {
+    return Container(
+        width: width,
+        padding: EdgeInsets.symmetric(horizontal: 0.1 * width),
+        margin: const EdgeInsets.symmetric(vertical: 5),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20), color: Colors.white),
+        child: DDL);
+  }
+
+  RangeValues _priceValues = const RangeValues(0, 4);
+  RangeValues _ratingValues = const RangeValues(1, 5);
 
   int _minFilter = 0;
   int _maxFilter = 4;
@@ -87,7 +77,7 @@ class _HomeScreen extends State<HomeScreen> {
 
   Widget _ratingFilter(double width) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 16),
+      margin: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -121,7 +111,7 @@ class _HomeScreen extends State<HomeScreen> {
 
   Widget _priceFilter(double width) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 16),
+      margin: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -153,14 +143,14 @@ class _HomeScreen extends State<HomeScreen> {
 
   Widget _distanceFilter(double width) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 16),
+      margin: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           buildSideLabel('0 km'),
           Expanded(
             child: CupertinoSlider(
-              activeColor: Color(0xff6488E5),
+              activeColor: const Color(0xff6488E5),
               value: _distValue,
               min: 0,
               max: 15000,
@@ -185,7 +175,7 @@ class _HomeScreen extends State<HomeScreen> {
       width: 60,
       child: Text(
         value,
-        style: TextStyle(fontFamily: 'AvenirLtStd', fontSize: 13),
+        style: const TextStyle(fontFamily: 'AvenirLtStd', fontSize: 13),
         textAlign: TextAlign.center,
       ),
     );
@@ -207,7 +197,7 @@ class _HomeScreen extends State<HomeScreen> {
         setState(() {
           _minFilter = 1;
           _maxFilter = 5;
-          _priceValues = RangeValues(0, 4);
+          _priceValues = const RangeValues(0, 4);
         });
       }
       _prevFilter = _filterByDropdownValue;
@@ -217,21 +207,21 @@ class _HomeScreen extends State<HomeScreen> {
         setState(() {
           _minFilter = 0;
           _maxFilter = 4;
-          _ratingValues = RangeValues(1, 5);
+          _ratingValues = const RangeValues(1, 5);
         });
       }
       _prevFilter = _filterByDropdownValue;
       return _priceFilter(width);
     } else {
-      return SizedBox.shrink();
+      return const SizedBox.shrink();
     }
   }
 
   Widget _filterDropDown(double width) {
     return _dropDownList(
-      0.49 * width,
+      0.6 * width,
       DropdownButtonFormField<String>(
-        icon: Icon(
+        icon: const Icon(
           Icons.arrow_drop_down,
           color: Color(0xffD1D1D6),
         ),
@@ -240,25 +230,25 @@ class _HomeScreen extends State<HomeScreen> {
               value: 'filter by',
               child: textMinor(
                 'filter by',
-                Color(0xffD1D1D6),
+                const Color(0xffD1D1D6),
               )),
           DropdownMenuItem(
               value: 'distance',
               child: textMinor(
                 'distance',
-                Color(0xff22254C),
+                const Color(0xff22254C),
               )),
           DropdownMenuItem(
               value: 'ratings',
               child: textMinor(
                 'ratings',
-                Color(0xff22254C),
+                const Color(0xff22254C),
               )),
           DropdownMenuItem(
               value: 'price',
               child: textMinor(
                 'price',
-                Color(0xff22254C),
+                const Color(0xff22254C),
               ))
         ],
         decoration: dropdownDeco,
@@ -276,39 +266,29 @@ class _HomeScreen extends State<HomeScreen> {
 
   Widget _placeTypeDropDown(double width) {
     return _dropDownList(
-        width,
-        DropdownButtonFormField(
-            icon: Icon(
-              Icons.arrow_drop_down,
-              color: Color(0xffD1D1D6),
-            ),
-            items: placeType
-                .map((String e) => DropdownMenuItem(
-                    value: e,
-                    child:
-                        textMinor(e.replaceAll('_', ' '), Color(0xff22254C))))
-                .toList(),
-            decoration: dropdownDeco,
-            isExpanded: true,
-            value: _placeTypeDropdownValue,
-            onChanged: (newValue) {
-              setState(() {
-                _placeTypeDropdownValue = newValue!;
-              });
-            }));
-  }
-
-  Widget _searchSwitch() {
-    return Transform.scale(
-      transformHitTests: false,
-      scale: .7,
-      child: CupertinoSwitch(
-        activeColor: Color(0xff6488E5),
-        trackColor: Color(0xff6488E5), //change to closer colour
-        value: _searchByCategory,
-        onChanged: (value) {
+      width,
+      DropdownButtonFormField(
+        icon: const Icon(
+          Icons.arrow_drop_down,
+          color: Color(0xffD1D1D6),
+        ),
+        items: placeType
+            .map(
+              (String e) => DropdownMenuItem(
+                value: e,
+                child: textMinor(
+                  e.replaceAll('_', ' '),
+                  const Color(0xff22254C),
+                ),
+              ),
+            )
+            .toList(),
+        decoration: dropdownDeco,
+        isExpanded: true,
+        value: _placeTypeDropdownValue,
+        onChanged: (newValue) {
           setState(() {
-            _searchByCategory = !_searchByCategory;
+            _placeTypeDropdownValue = newValue!;
           });
         },
       ),
@@ -324,19 +304,19 @@ class _HomeScreen extends State<HomeScreen> {
       child: TextField(
         textAlignVertical: TextAlignVertical.center,
         controller: _searchController,
-        cursorColor: Color(0xffD1D1D6),
-        cursorHeight: 18.0,
+        cursorColor: const Color(0xffD1D1D6),
+        cursorHeight: 14.0,
         style: avenirLtStdStyle(
-          Color(0xff22254C),
+          const Color(0xff22254C),
         ),
         decoration: InputDecoration(
-          prefixIcon: Icon(
+          prefixIcon: const Icon(
             Icons.search,
             color: Color(0xffD1D1D6),
           ),
           hintText: 'type a place...',
           hintStyle: avenirLtStdStyle(
-            Color(0xffD1D1D6),
+            const Color(0xffD1D1D6),
           ),
           contentPadding: EdgeInsets.zero,
           enabledBorder: const OutlineInputBorder(
@@ -347,7 +327,7 @@ class _HomeScreen extends State<HomeScreen> {
               color: Colors.white,
             ),
           ),
-          focusedBorder: OutlineInputBorder(
+          focusedBorder: const OutlineInputBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(20.0),
             ),
@@ -358,13 +338,30 @@ class _HomeScreen extends State<HomeScreen> {
     );
   }
 
+  Widget _searchSwitch() {
+    return Transform.scale(
+      transformHitTests: false,
+      scale: .7,
+      child: CupertinoSwitch(
+        activeColor: const Color(0xff6488E5),
+        trackColor: const Color(0xff6488E5), //change to closer colour
+        value: _searchByCategory,
+        onChanged: (value) {
+          setState(() {
+            _searchByCategory = !_searchByCategory;
+          });
+        },
+      ),
+    );
+  }
+
   Widget _goButton() {
     return Align(
       alignment: Alignment.centerRight,
       child: TextButton(
         style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all<Color>(
-              Color(0xff6488E5),
+              const Color(0xff6488E5),
             ),
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
@@ -386,16 +383,51 @@ class _HomeScreen extends State<HomeScreen> {
                   ),
           );
         },
-        child: Text('go!',
+        child: const Text('go!',
             style: TextStyle(
                 fontFamily: 'AvenirLtStd', fontSize: 16, color: Colors.white)),
       ),
     );
   }
 
+  Widget _searchTools(double width, double height) {
+    return SizedBox(
+      width: width,
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              textMinor(
+                  'keyword search',
+                  _searchByCategory
+                      ? const Color(0xffD1D1D6)
+                      : const Color(0xff22254C)),
+              _searchSwitch(),
+              textMinor(
+                  'dropdown list',
+                  _searchByCategory
+                      ? const Color(0xff22254C)
+                      : const Color(0xffD1D1D6))
+            ],
+          ),
+          _searchByCategory == false
+              ? _searchBar(width, height)
+              : _placeTypeDropDown(width),
+          _displayFiltered(width),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            _filterDropDown(width),
+            SizedBox(width: 0.1 * width),
+            _goButton()
+          ]),
+        ],
+      ),
+    );
+  }
+
   Widget _addFav(Place place, double height, double width) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(20))),
       width: width,
@@ -416,53 +448,24 @@ class _HomeScreen extends State<HomeScreen> {
                     });
                   },
                   child: _favourites.contains(place.id)
-                      ? Icon(
+                      ? const Icon(
                           Icons.favorite,
                           color: Color(0xffE56372),
                         )
-                      : Icon(
+                      : const Icon(
                           Icons.favorite_border,
                           color: Color(0xffE56372),
                         )),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               textMinor(
                   _favourites.contains(place.id)
                       ? 'added to favourites'
                       : 'add to favourites',
-                  Color(0xffD1D1D6))
+                  const Color(0xffD1D1D6))
             ],
           ),
-        ],
-      ),
-    );
-  }
-
-  Widget _searchTools(double width, double height) {
-    return SizedBox(
-      width: width,
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              textMinor('keyword search',
-                  _searchByCategory ? Color(0xffD1D1D6) : Color(0xff22254C)),
-              _searchSwitch(),
-              textMinor('dropdown list',
-                  _searchByCategory ? Color(0xff22254C) : Color(0xffD1D1D6))
-            ],
-          ),
-          _searchByCategory == false
-              ? _searchBar(width, height)
-              : _placeTypeDropDown(width),
-          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            SizedBox(width: 0.02 * width),
-            _filterDropDown(width)
-          ]),
-          _displayFiltered(width),
-          _goButton()
         ],
       ),
     );
@@ -470,15 +473,20 @@ class _HomeScreen extends State<HomeScreen> {
 
   Widget recommendedList(List<Place> places, double height, double width) {
     return ListView.builder(
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        itemCount: places.length,
-        itemBuilder: (context, index) {
-          return Column(
-            children: [
-              Stack(children: [
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: places.length,
+      itemBuilder: (context, index) {
+        return Column(
+          children: [
+            Stack(
+              children: [
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(context, PlaceScreen.routeName,
+                        arguments:
+                            PlaceScreenArguments(_places![index], _favourites));
+                  },
                   child: placeContainer(
                     places[index],
                     0.8 * width,
@@ -493,10 +501,23 @@ class _HomeScreen extends State<HomeScreen> {
                     ),
                   ),
                 ),
-              ])
-            ],
-          );
-        });
+              ],
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _reload() async {
+    _isLoaded = false;
+    _places = await _homeController.loadRecommendations(context);
+    setState(() {
+      _isLoaded = true;
+    });
   }
 
   @override
@@ -524,9 +545,9 @@ class _HomeScreen extends State<HomeScreen> {
                       child: topBar(
                           'home', height, width, 'assets/img/home-top.svg'),
                     ),
-                    SizedBox(height: 30),
-                    textMajor('find places', Color(0xff22254C), 26),
-                    SizedBox(
+                    const SizedBox(height: 30),
+                    textMajor('find places', const Color(0xff22254C), 26),
+                    const SizedBox(
                       height: 7,
                     ),
                     _searchTools(0.80 * width, 0.3 * height),
@@ -534,7 +555,7 @@ class _HomeScreen extends State<HomeScreen> {
                         fit: BoxFit.fill,
                         child: SvgPicture.asset('assets/img/home-mid.svg',
                             width: width, height: width)),
-                    textMajor('explore', Color(0xff22254C), 26),
+                    textMajor('explore', const Color(0xff22254C), 26),
                     recommendedList(_places!, height, width),
                     const SizedBox(height: 20)
                   ],
@@ -543,8 +564,8 @@ class _HomeScreen extends State<HomeScreen> {
             ),
           )
         : Container(
-            color: Color(0XffFFF9ED),
-            child: Center(
+            color: const Color(0XffFFF9ED),
+            child: const Center(
               child: CircularProgressIndicator(),
             ),
           );

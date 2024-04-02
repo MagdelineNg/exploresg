@@ -484,6 +484,7 @@ class _PlaceScreen extends State<PlaceScreen> {
               ),
             ],
           ),
+          const SizedBox(height: 50),
         ],
       ),
     );
@@ -852,7 +853,7 @@ class _PlaceScreen extends State<PlaceScreen> {
                         _topVector(),
                         _back(),
                         const SizedBox(
-                          height: 7,
+                          height: 20,
                         ),
                         Container(
                           margin: const EdgeInsets.symmetric(horizontal: 40),
@@ -866,17 +867,17 @@ class _PlaceScreen extends State<PlaceScreen> {
                         _placeDetails(widget.place),
                         const SizedBox(height: 20),
                         _addFav(widget.place, height * 0.05, width),
-                        _midVector(),
-                        const Text(
-                          'my details',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontFamily: 'MadeSunflower',
-                            fontSize: 26,
-                            color: Color(0xff22254C),
-                          ),
-                        ),
-                        const SizedBox(height: 7),
+                        // _midVector(),
+                        // const Text(
+                        //   'my details',
+                        //   textAlign: TextAlign.center,
+                        //   style: TextStyle(
+                        //     fontFamily: 'MadeSunflower',
+                        //     fontSize: 26,
+                        //     color: Color(0xff22254C),
+                        //   ),
+                        // ),
+                        const SizedBox(height: 30),
                         Container(
                           padding: const EdgeInsets.fromLTRB(40, 5, 40, 5),
                           child: Column(
@@ -905,7 +906,7 @@ class _PlaceScreen extends State<PlaceScreen> {
                         ),
                         _statusText(),
                         const SizedBox(
-                          height: 20,
+                          height: 150,
                         ),
                       ],
                     ),
