@@ -1,46 +1,51 @@
-import 'package:flutter/material.dart';
 import 'package:hidden_gems_sg/screens/base_ui.dart';
-import 'package:hidden_gems_sg/screens/home_ui.dart';
+import 'package:hidden_gems_sg/screens/forgot_password_ui.dart';
 import 'package:hidden_gems_sg/screens/login_ui.dart';
-import 'package:hidden_gems_sg/theme/theme_constants.dart';
+import 'package:hidden_gems_sg/screens/sign_up_ui.dart';
 import 'package:hidden_gems_sg/screens/splash_ui.dart';
+import 'package:hidden_gems_sg/screens/verify_ui.dart';
+import 'package:hidden_gems_sg/theme/theme_constants.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-
-import 'firebase_options.dart';
-import 'helper/user_controller.dart';
+import 'package:hidden_gems_sg/screens/interests_ui.dart';
+import 'package:flutter/material.dart';
 
 void main() async {
-  // Ensure that Firebase is initialized
   WidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load(fileName: ".env");
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-
-  // Then run the app
-  runApp(const MyApp());
+  await Firebase.initializeApp();
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
       theme: appTheme,
-      home: StreamBuilder<User?>(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.active) {
-            // User is null if not logged in
-            return snapshot.data != null ? BaseScreen() : const LoginScreen();
+      initialRoute: '/',
+      routes: {
+        SplashScreen.routeName: (context) => SplashScreen(),
+        BaseScreen.routeName: (context) => BaseScreen(),
+        LoginScreen.routeName: (context) => LoginScreen(),
+        SignUpScreen.routeName: (context) => SignUpScreen(),
+        VerifyScreen.routeName: (context) => VerifyScreen(),
+        ForgotPasswordScreen.routeName: (context) => ForgotPasswordScreen(),
+      },
+      onGenerateRoute: (RouteSettings settings) {
+        switch (settings.name) {
+          case InterestScreen.routeName: {
+            final InterestScreenArguments args = settings.arguments as InterestScreenArguments;
+            return MaterialPageRoute(builder: (context) {
+              return InterestScreen(args.userID, args.userInts);
+            });
+            // ignore: dead_code
+            break;
           }
-          return LoginScreen(); // Or some other placeholder
-        },
-      ),
+        }
+        assert(false, 'Need to implement ${settings.name}');
+        return null;
+      },
+      debugShowCheckedModeBanner: false,
+      home: SplashScreen(),
     );
   }
 }
