@@ -66,10 +66,10 @@ class PlacesApi {
               false,
               coor,
               n['types'],
-              n['user_ratings_total'] == null ? 0 : n['user_ratings_total'],
+              n['user_ratings_total'] ?? 0,
               photos,
               on,
-              n['price_level'] == null ? 0 : n['price_level']);
+              n['price_level'] ?? 0);
           places.add(place);
         }
         return places;

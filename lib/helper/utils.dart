@@ -105,7 +105,7 @@ Future showAlert(BuildContext context, String title, String content) async {
               actions: <Widget>[
                 CupertinoDialogAction(
                   isDefaultAction: true,
-                  child: Text("OK"),
+                  child: const Text("OK"),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
@@ -121,7 +121,7 @@ Future showAlert(BuildContext context, String title, String content) async {
               content: Text(content),
               actions: <Widget>[
                 TextButton(
-                  child: Text("OK"),
+                  child: const Text("OK"),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
@@ -133,8 +133,8 @@ Future showAlert(BuildContext context, String title, String content) async {
 
 Widget progressionIndicator() {
   return Container(
-    color: Color(0XffFFF9ED),
-    child: Center(
+    color: const Color(0XffFFF9ED),
+    child: const Center(
       child: CircularProgressIndicator(),
     ),
   );
@@ -142,31 +142,31 @@ Widget progressionIndicator() {
 
 Widget _printDist(distance) {
   return (distance != null)
-      ? textMinor(distance.toString() + "km", Color(0xff22254C))
-      : SizedBox();
+      ? textMinor("${distance}km", const Color(0xff22254C))
+      : const SizedBox();
 }
 
 Widget _printPrice(numOfD) {
   switch (numOfD) {
     case 0:
-      return textMinor("\$", Color(0xff22254C));
+      return textMinor("\$", const Color(0xff22254C));
     case 1:
-      return textMinor("\$\$", Color(0xff22254C));
+      return textMinor("\$\$", const Color(0xff22254C));
     case 2:
-      return textMinor("\$\$\$", Color(0xff22254C));
+      return textMinor("\$\$\$", const Color(0xff22254C));
     case 3:
-      return textMinor("\$\$\$\$", Color(0xff22254C));
+      return textMinor("\$\$\$\$", const Color(0xff22254C));
     case 4:
-      return textMinor("\$\$\$\$\$", Color(0xff22254C));
+      return textMinor("\$\$\$\$\$", const Color(0xff22254C));
     default:
-      return SizedBox(width: 0);
+      return const SizedBox(width: 0);
   }
 }
 
 Widget placeContainer(Place place, double width, double height, Widget top,
     [Widget? extra, double? distance]) {
   return Container(
-    decoration: BoxDecoration(
+    decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(20))),
     padding:
@@ -180,26 +180,26 @@ Widget placeContainer(Place place, double width, double height, Widget top,
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(16.0),
-              child: place.images.length != 0
+              child: place.images.isNotEmpty
                   ? Image.network(
                       place.images[0],
                       fit: BoxFit.fill,
                       height: 100,
                       width: 100,
                     )
-                  : Icon(
+                  : const Icon(
                       Icons.question_mark,
                       size: 100,
                     ),
             ),
-            SizedBox(width: 20),
+            const SizedBox(width: 20),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     place.placeName,
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontFamily: 'AvenirLtStd',
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
@@ -207,7 +207,7 @@ Widget placeContainer(Place place, double width, double height, Widget top,
                   ),
                   RatingBarIndicator(
                     rating: place.ratings,
-                    itemBuilder: (context, index) => Icon(
+                    itemBuilder: (context, index) => const Icon(
                       Icons.star,
                       color: Colors.amber,
                     ),
@@ -215,10 +215,10 @@ Widget placeContainer(Place place, double width, double height, Widget top,
                     itemSize: width / 20,
                     direction: Axis.horizontal,
                   ),
-                  textMinor(place.placeAddress, Color(0xff22254C)),
-                  SizedBox(height: 5),
+                  textMinor(place.placeAddress, const Color(0xff22254C)),
+                  const SizedBox(height: 5),
                   _printPrice(place.price),
-                  SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   //include dist for afterseach
                   // textMinor(distance.toString() + "km", Colors.black),
                   _printDist(distance?.toStringAsFixed(2)),
@@ -230,7 +230,7 @@ Widget placeContainer(Place place, double width, double height, Widget top,
         SizedBox(
           height: height * 0.14,
         ),
-        extra != null ? extra : Container(),
+        extra ?? Container(),
       ],
     ),
   );
