@@ -219,7 +219,7 @@ class _PlaceScreen extends State<PlaceScreen> {
                   ));
                 },
                 child: textMinor(
-                  'see exploreSG reviews',
+                  'see reviews',
                   const Color(0xff6488E5),
                 ),
               ),
