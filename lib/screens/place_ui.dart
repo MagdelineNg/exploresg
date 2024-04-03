@@ -233,7 +233,7 @@ class _PlaceScreen extends State<PlaceScreen> {
   Widget _addFav(Place place, double height, double width) {
     return Container(
       decoration: const BoxDecoration(
-          color: Colors.white,
+          color: Color(0XffFFF9ED),
           borderRadius: BorderRadius.all(Radius.circular(20))),
       width: width,
       height: height,
