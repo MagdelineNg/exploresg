@@ -175,6 +175,7 @@ Widget placeContainer(Place place, double width, double height, Widget top,
     child: Column(
       children: [
         top,
+        SizedBox(height: height * 0.02), // 2% of screen height (20px
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -228,7 +229,7 @@ Widget placeContainer(Place place, double width, double height, Widget top,
           ],
         ),
         SizedBox(
-          height: height * 0.14,
+          height: height * 0.08,
         ),
         extra ?? Container(),
       ],

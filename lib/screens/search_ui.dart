@@ -101,7 +101,7 @@ class _SearchScreen extends State<SearchScreen> {
       width: width,
       height: height,
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           InkWell(
@@ -161,10 +161,10 @@ class _SearchScreen extends State<SearchScreen> {
                     child: placeContainer(
                         places[index],
                         0.8 * width,
-                        0.215 * height,
+                        0.22 * height,
                         _addFav(
                           places[index],
-                          0.05 * height,
+                          0.04 * height,
                           0.8 * width,
                         ),
                         Container(),
@@ -178,7 +178,7 @@ class _SearchScreen extends State<SearchScreen> {
                 ],
               ),
               SizedBox(
-                height: 15,
+                height: 20,
               ),
             ],
           );

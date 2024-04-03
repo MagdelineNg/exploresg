@@ -213,7 +213,7 @@ class _HomeScreen extends State<HomeScreen> {
       _prevFilter = _filterByDropdownValue;
       return _priceFilter(width);
     } else {
-      return const SizedBox.shrink();
+      return const SizedBox(height: 7);
     }
   }
 
@@ -433,7 +433,7 @@ class _HomeScreen extends State<HomeScreen> {
       width: width,
       height: height,
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           InkWell(
@@ -492,7 +492,7 @@ class _HomeScreen extends State<HomeScreen> {
                     places[index],
                     0.8 * width,
                     0.22 * height,
-                    _addFav(places[index], 0.05 * height, 0.8 * width),
+                    _addFav(places[index], 0.04 * height, 0.8 * width),
                     Container(),
                     calculateDistance(
                       _userLoc.latitude,
@@ -505,7 +505,7 @@ class _HomeScreen extends State<HomeScreen> {
               ],
             ),
             const SizedBox(
-              height: 15,
+              height: 20,
             ),
           ],
         );

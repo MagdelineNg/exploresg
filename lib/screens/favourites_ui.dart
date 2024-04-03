@@ -32,8 +32,10 @@ class _FavouriteScreen extends State<FavouriteScreen> {
       decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(20))),
+      width: width,
+      height: height,
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           InkWell(
@@ -92,15 +94,15 @@ class _FavouriteScreen extends State<FavouriteScreen> {
                   child: placeContainer(
                     places[index],
                     0.8 * width,
-                    0.195 * height,
-                    _addFav(index, places[index], 0.05 * height, 0.8 * width),
+                    0.22 * height,
+                    _addFav(index, places[index], 0.04 * height, 0.8 * width),
                     Container(),
                   ),
                 ),
               ],
             ),
             const SizedBox(
-              height: 15,
+              height: 20,
             ),
           ],
         );
