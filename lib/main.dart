@@ -4,6 +4,7 @@ import 'package:hidden_gems_sg/screens/home_ui.dart';
 import 'package:hidden_gems_sg/screens/login_ui.dart';
 import 'package:hidden_gems_sg/screens/sign_up_ui.dart';
 import 'package:hidden_gems_sg/screens/verify_ui.dart';
+import 'package:hidden_gems_sg/screens/interests_ui.dart';
 import 'package:hidden_gems_sg/screens/forgot_password_ui.dart';
 import 'package:hidden_gems_sg/theme/theme_constants.dart';
 // import 'package:hidden_gems_sg/screens/splash_ui.dart';
@@ -26,34 +27,68 @@ void main() async {
   runApp(const MyApp());
 }
 
+// class MyApp extends StatelessWidget {
+//   const MyApp({super.key});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       theme: appTheme,
+//       initialRoute: '/',
+//       routes: {
+//         '/': (context) => StreamBuilder<User?>(
+//           stream: FirebaseAuth.instance.authStateChanges(),
+//           builder: (context, snapshot) {
+//             if (snapshot.connectionState == ConnectionState.active) {
+//               // User is null if not logged in
+//               return snapshot.data != null ? BaseScreen() : const LoginScreen();
+//             }
+//             return const CircularProgressIndicator(); // Show loading indicator while waiting for auth state
+//           },
+//         ),
+//         LoginScreen.routeName: (context) => const LoginScreen(),
+//         SignUpScreen.routeName: (context) => const SignUpScreen(),
+//         VerifyScreen.routeName: (context) => const VerifyScreen(),
+//         ForgotPasswordScreen.routeName: (context) => const ForgotPasswordScreen(),
+//         // Define other routes as needed
+//       },
+//     );
+//   }
+// }
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
       theme: appTheme,
       initialRoute: '/',
       routes: {
-        '/': (context) => StreamBuilder<User?>(
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.active) {
-              // User is null if not logged in
-              return snapshot.data != null ? BaseScreen() : const LoginScreen();
-            }
-            return const CircularProgressIndicator(); // Show loading indicator while waiting for auth state
-          },
-        ),
+        BaseScreen.routeName: (context) => const BaseScreen(),
         LoginScreen.routeName: (context) => const LoginScreen(),
         SignUpScreen.routeName: (context) => const SignUpScreen(),
         VerifyScreen.routeName: (context) => const VerifyScreen(),
         ForgotPasswordScreen.routeName: (context) => const ForgotPasswordScreen(),
-        // Define other routes as needed
       },
+      onGenerateRoute: (RouteSettings settings) {
+        switch (settings.name) {
+          case InterestScreen.routeName: {
+            final InterestScreenArguments args = settings.arguments as InterestScreenArguments;
+            return MaterialPageRoute(builder: (context) {
+              return InterestScreen(args.userID, args.userInts);
+            });
+            // ignore: dead_code
+            break;
+          }
+        }
+        assert(false, 'Need to implement ${settings.name}');
+        return null;
+      },
+      debugShowCheckedModeBanner: false,
+      home: const LoginScreen(),
     );
   }
 }
-
 
