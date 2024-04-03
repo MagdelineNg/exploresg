@@ -129,7 +129,7 @@ class _PlaceScreen extends State<PlaceScreen> {
                 builder: (context) => ReviewsScreen(widget.place),
               ));
             },
-            child: textMinor('exploreSG ratings: ', const Color(0xff22254C)),
+            child: textMinor('app ratings: ', const Color(0xff22254C)),
           ),
         ],
       ),
