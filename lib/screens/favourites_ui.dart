@@ -36,37 +36,37 @@ class _FavouriteScreen extends State<FavouriteScreen> {
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Row(
-            children: [
-              InkWell(
-                onTap: () async {
-                  await _favouritesController.addOrRemoveFav(place.id);
-                  _favourites =
-                      await _favouritesController.getFavouritesList(context);
-                  _favourite_places = await _favouritesController
-                      .removeFavourites(index, _favourite_places);
-                  setState(() {});
-                },
-                child: _favourites.contains(place.id)
+          InkWell(
+            onTap: () async {
+              await _favouritesController.addOrRemoveFav(place.id);
+              _favourites =
+                  await _favouritesController.getFavouritesList(context);
+              _favourite_places = await _favouritesController.removeFavourites(
+                  index, _favourite_places);
+              setState(() {});
+            },
+            child: Row(
+              children: [
+                _favourites.contains(place.id)
                     ? const Icon(
                         Icons.favorite,
                         color: Color(0xffE56372),
                       )
                     : const Icon(
                         Icons.favorite_border,
-                        color: Color(0xffE56372),
+                        color: Color(0xffA4A4A4),
                       ),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              textMinor(
-                _favourites.contains(place.id)
-                    ? 'added to favourites'
-                    : 'add to favourites',
-                const Color(0xffD1D1D6),
-              )
-            ],
+                const SizedBox(
+                  width: 10,
+                ),
+                textMinor(
+                  _favourites.contains(place.id)
+                      ? 'added to favourites'
+                      : 'add to favourites',
+                  const Color(0xffA4A4A4),
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -92,7 +92,7 @@ class _FavouriteScreen extends State<FavouriteScreen> {
                   child: placeContainer(
                     places[index],
                     0.8 * width,
-                    0.215 * height,
+                    0.195 * height,
                     _addFav(index, places[index], 0.05 * height, 0.8 * width),
                     Container(),
                   ),

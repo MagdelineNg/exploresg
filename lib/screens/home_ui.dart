@@ -436,35 +436,36 @@ class _HomeScreen extends State<HomeScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Row(
-            children: [
-              InkWell(
-                  onTap: () async {
-                    await _favouritesController.addOrRemoveFav(place.id);
-                    _favourites =
-                        await _favouritesController.getFavouritesList(context);
-                    setState(() {
-                      place.likes = !place.likes;
-                    });
-                  },
-                  child: _favourites.contains(place.id)
-                      ? const Icon(
-                          Icons.favorite,
-                          color: Color(0xffE56372),
-                        )
-                      : const Icon(
-                          Icons.favorite_border,
-                          color: Color(0xffE56372),
-                        )),
-              const SizedBox(
-                width: 10,
-              ),
-              textMinor(
-                  _favourites.contains(place.id)
-                      ? 'added to favourites'
-                      : 'add to favourites',
-                  const Color(0xffD1D1D6))
-            ],
+          InkWell(
+            onTap: () async {
+              await _favouritesController.addOrRemoveFav(place.id);
+              _favourites =
+                  await _favouritesController.getFavouritesList(context);
+              setState(() {
+                place.likes = !place.likes;
+              });
+            },
+            child: Row(
+              children: [
+                _favourites.contains(place.id)
+                    ? const Icon(
+                        Icons.favorite,
+                        color: Color(0xffE56372),
+                      )
+                    : const Icon(
+                        Icons.favorite_border,
+                        color: Color(0xffA4A4A4),
+                      ),
+                const SizedBox(
+                  width: 10,
+                ),
+                textMinor(
+                    _favourites.contains(place.id)
+                        ? 'added to favourites'
+                        : 'add to favourites',
+                    const Color(0xffA4A4A4))
+              ],
+            ),
           ),
         ],
       ),
@@ -490,7 +491,7 @@ class _HomeScreen extends State<HomeScreen> {
                   child: placeContainer(
                     places[index],
                     0.8 * width,
-                    0.24 * height,
+                    0.22 * height,
                     _addFav(places[index], 0.05 * height, 0.8 * width),
                     Container(),
                     calculateDistance(

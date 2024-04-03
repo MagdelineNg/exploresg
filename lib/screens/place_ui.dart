@@ -186,7 +186,7 @@ class _PlaceScreen extends State<PlaceScreen> {
         children: [
           Row(
             children: [
-              textMinor('address', const Color(0xff22254C)),
+              textMinor('address: ', const Color(0xff22254C)),
               Flexible(
                 child: textMinor(
                   place.placeAddress,
@@ -233,50 +233,44 @@ class _PlaceScreen extends State<PlaceScreen> {
   Widget _addFav(Place place, double height, double width) {
     return Container(
       decoration: const BoxDecoration(
-        color: Color(0XffFFF9ED),
-        borderRadius: BorderRadius.all(
-          Radius.circular(20),
-        ),
-      ),
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(20))),
       width: width,
       height: height,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Row(
-            children: [
-              InkWell(
-                onTap: () async {
-                  await _favouritesController.addOrRemoveFav(place.id);
-                  _favourites =
-                      await _favouritesController.getFavouritesList(context);
-                  print('<3 pressed');
-                  setState(() {
-                    place.likes = !place.likes;
-                  });
-                  print(place.likes);
-                },
-                child: _favourites.contains(place.id)
+          InkWell(
+            onTap: () async {
+              await _favouritesController.addOrRemoveFav(place.id);
+              _favourites =
+                  await _favouritesController.getFavouritesList(context);
+              setState(() {
+                place.likes = !place.likes;
+              });
+            },
+            child: Row(
+              children: [
+                _favourites.contains(place.id)
                     ? const Icon(
                         Icons.favorite,
                         color: Color(0xffE56372),
                       )
                     : const Icon(
                         Icons.favorite_border,
-                        color: Color(0xffE56372),
+                        color: Color(0xffA4A4A4),
                       ),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              textMinor(
-                _favourites.contains(place.id)
-                    ? 'added to favourites'
-                    : 'add to favourites',
-                const Color(0xffD1D1D6),
-              ),
-            ],
+                const SizedBox(
+                  width: 10,
+                ),
+                textMinor(
+                    _favourites.contains(place.id)
+                        ? 'added to favourites'
+                        : 'add to favourites',
+                    const Color(0xffA4A4A4))
+              ],
+            ),
           ),
         ],
       ),
