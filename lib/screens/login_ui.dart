@@ -1,7 +1,7 @@
 import 'package:hidden_gems_sg/helper/auth_controller.dart';
 import 'package:hidden_gems_sg/helper/google_sign_in_api.dart';
 import 'package:hidden_gems_sg/screens/base_ui.dart';
-// import 'package:hidden_gems_sg/screens/forgot_password_ui.dart';
+import 'package:hidden_gems_sg/screens/forgot_password_ui.dart';
 import 'package:hidden_gems_sg/screens/interests_ui.dart';
 import 'package:hidden_gems_sg/screens/sign_up_ui.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -249,7 +249,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _forgotPassword() {
     return InkWell(
       onTap: () {
-        // Navigator.pushReplacementNamed(context, ForgotPasswordScreen.routeName);
+        Navigator.pushReplacementNamed(context, ForgotPasswordScreen.routeName);
       },
       child: textMinor(
         'forgot my password',

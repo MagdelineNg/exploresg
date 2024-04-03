@@ -4,6 +4,7 @@ import 'package:hidden_gems_sg/screens/home_ui.dart';
 import 'package:hidden_gems_sg/screens/login_ui.dart';
 import 'package:hidden_gems_sg/screens/sign_up_ui.dart';
 import 'package:hidden_gems_sg/screens/verify_ui.dart';
+import 'package:hidden_gems_sg/screens/forgot_password_ui.dart';
 import 'package:hidden_gems_sg/theme/theme_constants.dart';
 // import 'package:hidden_gems_sg/screens/splash_ui.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -48,6 +49,7 @@ class MyApp extends StatelessWidget {
         LoginScreen.routeName: (context) => const LoginScreen(),
         SignUpScreen.routeName: (context) => const SignUpScreen(),
         VerifyScreen.routeName: (context) => const VerifyScreen(),
+        ForgotPasswordScreen.routeName: (context) => const ForgotPasswordScreen(),
         // Define other routes as needed
       },
     );
