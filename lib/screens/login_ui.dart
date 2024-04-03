@@ -3,7 +3,7 @@ import 'package:hidden_gems_sg/helper/google_sign_in_api.dart';
 import 'package:hidden_gems_sg/screens/base_ui.dart';
 // import 'package:hidden_gems_sg/screens/forgot_password_ui.dart';
 import 'package:hidden_gems_sg/screens/interests_ui.dart';
-// import 'package:hidden_gems_sg/screens/sign_up_ui.dart';
+import 'package:hidden_gems_sg/screens/sign_up_ui.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -11,6 +11,8 @@ import 'package:hidden_gems_sg/helper/utils.dart';
 
 
 class LoginScreen extends StatefulWidget {
+  static const routeName = '/login';
+
   const LoginScreen({super.key});
 
   @override
@@ -59,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _signupLabel() {
     return InkWell(
       onTap: () {
-        // Navigator.pushReplacementNamed(context, SignUpScreen.routeName);
+        Navigator.pushReplacementNamed(context, SignUpScreen.routeName);
       },
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
