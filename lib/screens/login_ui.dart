@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hidden_gems_sg/helper/utils.dart';
 
-
 class LoginScreen extends StatefulWidget {
   static const routeName = '/login';
 
@@ -46,7 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          textMajor('Hidden Gems SG', Color(0xff22254C), 34),
+          textMajor('Hidden Gems SG', Color(0xff22254C), 30),
           SizedBox(height: 10),
           _loginForm(),
           SizedBox(height: 30),
@@ -107,11 +106,11 @@ class _LoginScreenState extends State<LoginScreen> {
       height: height * 0.05,
       child: _isLoading
           ? Container(
-        color: Colors.white,
-        child: Center(
-          child: CircularProgressIndicator(),
-        ),
-      )
+              color: Colors.white,
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            )
           : _loginButton(width, height),
     );
   }
@@ -213,7 +212,7 @@ class _LoginScreenState extends State<LoginScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             textMinor(
-              'login using',
+              'or login using',
               Color(0xff22254C),
             ),
             SizedBox(
@@ -221,13 +220,13 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             _useEmail
                 ? textMinor(
-              'username',
-              Color(0xff6488E5),
-            )
+                    'username',
+                    Color(0xff6488E5),
+                  )
                 : textMinor(
-              'email',
-              Color(0xff6488E5),
-            )
+                    'email',
+                    Color(0xff6488E5),
+                  )
           ],
         ),
       ),
@@ -274,7 +273,7 @@ class _LoginScreenState extends State<LoginScreen> {
           var bool = await _authController.checkUserExist(result.uid);
           if (!bool) {
             var error =
-            await _authController.createUserFromGoogleSignIn(result);
+                await _authController.createUserFromGoogleSignIn(result);
             if (error != null) {
               showAlert(context, 'Google Sign In Error', error);
             } else {

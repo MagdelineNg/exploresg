@@ -34,43 +34,43 @@ class UserModel {
   }
 
   void setEmailVerified(bool verified) {
-    this.emailVerified = verified;
+    emailVerified = verified;
   }
 
   String getId() {
-    return this.id;
+    return id;
   }
 
   String getUsername() {
-    return this.username;
+    return username;
   }
 
   String getEmail() {
-    return this.email;
+    return email;
   }
 
   String getFirstName() {
-    return this.firstName;
+    return firstName;
   }
 
   String getLastName() {
-    return this.lastName;
+    return lastName;
   }
 
   String getPicture() {
-    return this.picture;
+    return picture;
   }
 
   String getInterest() {
-    return this.interest;
+    return interest;
   }
 
   void setFirstName(String first) {
-    this.firstName = first;
+    firstName = first;
   }
 
   void setLastName(String last) {
-    this.lastName = last;
+    lastName = last;
   }
 
   void setPicture(String picture) {
